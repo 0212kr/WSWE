@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">WSWE</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Team.BaeGoPa</string>
+    <string name="nav_header_subtitle">WSWE Ver.1.0</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_menu">식당\u0026메뉴</string>
+    <string name="menu_cafe">디저트\u0026카페</string>
+    <string name="menu_random">랜덤추천</string>
+
+    <string name="home_second">Home Second</string>
+</resources>
