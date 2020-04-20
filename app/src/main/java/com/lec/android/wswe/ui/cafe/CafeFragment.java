@@ -23,7 +23,7 @@ public class CafeFragment extends Fragment {
         cafeViewModel =
                 ViewModelProviders.of(this).get(CafeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_cafe, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
+        final TextView textView = root.findViewById(R.id.text_cafe);
         cafeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

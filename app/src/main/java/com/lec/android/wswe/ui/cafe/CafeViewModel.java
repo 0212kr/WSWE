@@ -10,7 +10,7 @@ public class CafeViewModel extends ViewModel {
 
     public CafeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is cafe fragment");
     }
 
     public LiveData<String> getText() {
