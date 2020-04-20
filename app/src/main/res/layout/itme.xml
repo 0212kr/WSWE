@@ -23,6 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+
             <ImageView
                 android:id="@+id/ivPhoto"
                 android:layout_width="93dp"
@@ -64,7 +66,8 @@
                 app:layout_constraintStart_toEndOf="@+id/tvName"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.045"
-                app:srcCompat="@android:drawable/ic_delete" />
+                app:srcCompat="@android:drawable/ic_delete"
+                />
 
             <RatingBar
                 android:id="@+id/ratingBar"
@@ -81,7 +84,8 @@
                 app:layout_constraintHorizontal_bias="0.672"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPhone"
-                app:layout_constraintVertical_bias="0.466" />
+                app:layout_constraintVertical_bias="0.466"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
