@@ -30,14 +30,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.lec.android.wswe.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_menu"
+        android:name="com.lec.android.wswe.ui.menu.MenuFragment"
         android:label="@string/menu_menu"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_cafe"
-        android:name="com.lec.android.wswe.ui.slideshow.SlideshowFragment"
+        android:name="com.lec.android.wswe.ui.cafe.CafeFragment"
         android:label="@string/menu_cafe"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>
