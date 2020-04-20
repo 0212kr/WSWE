@@ -33,11 +33,11 @@
         android:id="@+id/nav_menu"
         android:name="com.lec.android.wswe.ui.menu.MenuFragment"
         android:label="@string/menu_menu"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_menu" />
 
     <fragment
         android:id="@+id/nav_cafe"
         android:name="com.lec.android.wswe.ui.cafe.CafeFragment"
         android:label="@string/menu_cafe"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_cafe" />
 </navigation>

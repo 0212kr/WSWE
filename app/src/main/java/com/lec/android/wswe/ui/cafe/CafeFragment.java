@@ -22,7 +22,7 @@ public class CafeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         cafeViewModel =
                 ViewModelProviders.of(this).get(CafeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        View root = inflater.inflate(R.layout.fragment_cafe, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
         cafeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
