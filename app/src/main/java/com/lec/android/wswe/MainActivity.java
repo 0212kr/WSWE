@@ -1,5 +1,7 @@
 package com.lec.android.wswe;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -7,6 +9,7 @@ import android.view.Menu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.lec.android.wswe.db.Database;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,11 +18,13 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.room.Room;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setVisibility(View.INVISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
+
+        Database db = Database.getInstance(this);
+    } // end onCreate
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
