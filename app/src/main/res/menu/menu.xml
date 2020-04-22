@@ -7,10 +7,6 @@
         android:orderInCategory="100"
         android:title="메뉴추가"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/menu_modify"
-        android:orderInCategory="100"
-        android:title="메뉴수정"
-        app:showAsAction="never"/>
+
 
 </menu>

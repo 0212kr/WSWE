@@ -19,6 +19,7 @@ import androidx.room.Room;
 
 public class MainActivity extends AppCompatActivity {
 
+//    static int menu = 0;    // ==추==가==
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
