@@ -27,23 +27,15 @@ public class MenuFragment extends Fragment {
                 ViewModelProviders.of(this).get(MenuViewModel.class);
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
 
-
+        setHasOptionsMenu(true);
 
         return root;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-////        inflater.inflate(R.menu.menu, menu);
-//        menu.add(0, 1, 100, "메뉴추가");
-//        menu.getItem(0).setVisible(false);
-////        super.onCreateOptionsMenu(menu,);
-//    }
-
-
     @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        menu.add(0, 1, 100, "메뉴추가");
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
         menu.getItem(0).setVisible(false);
     }
 }
