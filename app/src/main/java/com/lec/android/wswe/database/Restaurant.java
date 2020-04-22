@@ -20,12 +20,12 @@ public class Restaurant {
         this.star = star;
     }
 
-    public Restaurant(@NonNull String rest_name, String telephone, int star, int visited) {
-        this.rest_name = rest_name;
-        this.telephone = telephone;
-        this.star = star;
-        this.visited = visited;
-    }
+//    public Restaurant(@NonNull String rest_name, String telephone, int star, int visited) {
+//        this.rest_name = rest_name;
+//        this.telephone = telephone;
+//        this.star = star;
+//        this.visited = visited;
+//    }
 
     public int getRest_id() {
         return rest_id;
