@@ -42,7 +42,11 @@ public class Restaurant {
     }
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone;
+        if (telephone == null) {
+            this.telephone = "없음";
+        } else {
+            this.telephone = telephone;
+        }
     }
 
     public float getStar() {

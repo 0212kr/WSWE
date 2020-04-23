@@ -15,11 +15,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lec.android.wswe.R;
 import com.lec.android.wswe.database.RestDAO;
 import com.lec.android.wswe.database.RestDatabase;
 import com.lec.android.wswe.database.Restaurant;
+
+import java.util.ArrayList;
 
 public class MenuFragment extends Fragment {
 
@@ -27,6 +31,9 @@ public class MenuFragment extends Fragment {
     private EditText etName, etPhone;
     private RatingBar stars;
     RestDatabase db = RestDatabase.getInstance(getActivity());
+    MenuAdapter menuAdapter;
+    RecyclerView recyclerView;
+    ArrayList<Restaurant> restaurants;
 
     private MenuViewModel menuViewModel;
 
@@ -38,6 +45,20 @@ public class MenuFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        recyclerView = root.findViewById(R.id.list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        menuAdapter = new MenuAdapter();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                restaurants = (ArrayList<Restaurant>) db.restDAO().getAll();
+                initAdapter(menuAdapter);
+            }
+        }).setDaemon(true);
+        recyclerView.setAdapter(menuAdapter);
+
         btnAdd = root.findViewById(R.id.btnAdd);
         etName = root.findViewById(R.id.etName);
         etPhone = root.findViewById(R.id.etPhone);
@@ -47,7 +68,7 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 String name = "";
                 String phone = "";
-                float star=0;
+                float star = 0;
                 try {
                     name = etName.getText().toString().trim();
                     phone = etPhone.getText().toString().trim();
@@ -71,6 +92,11 @@ public class MenuFragment extends Fragment {
         return root;
     }
 
+    private void initAdapter(MenuAdapter menuAdapter) {
+        menuAdapter.setItems(restaurants);
+        menuAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -78,7 +104,7 @@ public class MenuFragment extends Fragment {
         menu.getItem(0).setVisible(false);
     }
 
-    public static class InsertAsynkTask extends AsyncTask<Restaurant, Void, Void> {
+    public class InsertAsynkTask extends AsyncTask<Restaurant, Void, Void> {
         private RestDAO mRestDao;
 
         public InsertAsynkTask(RestDAO RestDao) {
@@ -88,9 +114,10 @@ public class MenuFragment extends Fragment {
         @Override
         protected Void doInBackground(Restaurant... restaurants) {
             mRestDao.insert(restaurants[0]);
-
+            menuAdapter.notifyDataSetChanged();
             return null;
         }
+
     }
 
 }
