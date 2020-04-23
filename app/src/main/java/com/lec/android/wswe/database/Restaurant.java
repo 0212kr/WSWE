@@ -11,10 +11,10 @@ public class Restaurant {
     @NonNull
     private String rest_name;
     private String telephone;
-    private int star;
+    private float star;
     private int visited;
 
-    public Restaurant(@NonNull String rest_name, String telephone, int star) {
+    public Restaurant(@NonNull String rest_name, String telephone, float star) {
         this.rest_name = rest_name;
         this.telephone = telephone;
         this.star = star;
@@ -45,7 +45,7 @@ public class Restaurant {
         this.telephone = telephone;
     }
 
-    public int getStar() {
+    public float getStar() {
         return star;
     }
 
