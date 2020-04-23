@@ -1,89 +1,123 @@
 package com.lec.android.wswe.ui.menu;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lec.android.wswe.R;
-import com.lec.android.wswe.db.Database;
-import com.lec.android.wswe.db.ReataurantDAO;
-import com.lec.android.wswe.db.Restaurant;
+import com.lec.android.wswe.database.RestDAO;
+import com.lec.android.wswe.database.RestDatabase;
+import com.lec.android.wswe.database.Restaurant;
+
+import java.util.ArrayList;
 
 public class MenuFragment extends Fragment {
 
-    private MenuViewModel menuViewModel;
-    Dialog dig1;
-    Database db = Database.getInstance(getContext());
+    private Button btnAdd;
+    private EditText etName, etPhone;
+    private RatingBar stars;
+    RestDatabase db = RestDatabase.getInstance(getActivity());
+    MenuAdapter menuAdapter;
+    RecyclerView recyclerView;
+    ArrayList<Restaurant> restaurants;
 
-    @SuppressLint("RestrictedApi")
+    private MenuViewModel menuViewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         menuViewModel =
                 ViewModelProviders.of(this).get(MenuViewModel.class);
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        dig1 = new Dialog(getContext());
-        dig1.setContentView(R.layout.add_rest);
-        dig1.setOwnerActivity(getActivity());
-        dig1.setCanceledOnTouchOutside(true);
+        setHasOptionsMenu(true);
 
-        FloatingActionButton addRest = root.findViewById(R.id.addRest);
-        addRest.setOnClickListener(new View.OnClickListener() {
+        recyclerView = root.findViewById(R.id.list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        menuAdapter = new MenuAdapter();
+
+        new Thread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                dig1.show();
+            public void run() {
+                restaurants = (ArrayList<Restaurant>) db.restDAO().getAll();
+                initAdapter(menuAdapter);
             }
-        });
+        }).setDaemon(true);
+        recyclerView.setAdapter(menuAdapter);
 
-        Button btnAdd = dig1.findViewById(R.id.btnAdd);
-        final EditText etName = dig1.findViewById(R.id.etName);
-        final EditText etPhone = dig1.findViewById(R.id.etPhone);
-        final RatingBar ratingBar = dig1.findViewById(R.id.addRating);
-
+        btnAdd = root.findViewById(R.id.btnAdd);
+        etName = root.findViewById(R.id.etName);
+        etPhone = root.findViewById(R.id.etPhone);
+        stars = root.findViewById(R.id.stars);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new InsertAsyncTask(db.reataurantDAO()).execute(new Restaurant(
-                        etName.getText().toString().trim(),
-                        etPhone.getText().toString().trim(),
-                        ratingBar.getNumStars()
-                ));
+                String name = "";
+                String phone = "";
+                float star = 0;
+                try {
+                    name = etName.getText().toString().trim();
+                    phone = etPhone.getText().toString().trim();
+                    star = stars.getRating();
+
+                    if (name.equals("")) {
+                        Toast.makeText(v.getContext(), "식당 이름은 필수입니다.", Toast.LENGTH_LONG).show();
+                        return;
+                    } else if (phone.equals("")) {
+                        phone = "입력 없음";
+                    }
+
+                    new InsertAsynkTask(db.restDAO()).execute(new Restaurant(name, phone, star));
+
+                } catch (Exception e) {
+                    Toast.makeText(v.getContext(), "오류가 발생했습니다. 다시 시도해 주세요", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
-//        final TextView textView = root.findViewById(R.id.text_menu);
-//        menuViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
         return root;
     }
 
-    public static class InsertAsyncTask extends AsyncTask<Restaurant, Void, Void> {
-        private ReataurantDAO mRestaurantDao;
+    private void initAdapter(MenuAdapter menuAdapter) {
+        menuAdapter.setItems(restaurants);
+        menuAdapter.notifyDataSetChanged();
+    }
 
-        public InsertAsyncTask(ReataurantDAO mRestaurantDao) {
-            this.mRestaurantDao = mRestaurantDao;
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+        menu.getItem(0).setVisible(false);
+    }
+
+    public class InsertAsynkTask extends AsyncTask<Restaurant, Void, Void> {
+        private RestDAO mRestDao;
+
+        public InsertAsynkTask(RestDAO RestDao) {
+            this.mRestDao = RestDao;
         }
 
         @Override
         protected Void doInBackground(Restaurant... restaurants) {
-            mRestaurantDao.insert_rest(restaurants[0]);
+            mRestDao.insert(restaurants[0]);
+            menuAdapter.notifyDataSetChanged();
             return null;
         }
+
     }
+
 }
