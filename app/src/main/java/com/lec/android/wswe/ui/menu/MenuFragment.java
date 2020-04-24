@@ -50,13 +50,15 @@ public class MenuFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         menuAdapter = new MenuAdapter();
 
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 restaurants = (ArrayList<Restaurant>) db.restDAO().getAll();
                 initAdapter(menuAdapter);
             }
-        }).setDaemon(true);
+        });
+        thread.setDaemon(true);
+        thread.start();
         recyclerView.setAdapter(menuAdapter);
 
         btnAdd = root.findViewById(R.id.btnAdd);
