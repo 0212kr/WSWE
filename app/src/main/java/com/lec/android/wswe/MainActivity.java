@@ -10,6 +10,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.lec.android.wswe.database.RestDatabase;
 import com.lec.android.wswe.ui.menu.MenuViewModel;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -78,4 +80,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 }

@@ -41,17 +41,18 @@
         android:label="@string/menu_menu"
         tools:layout="@layout/fragment_menu" >
         <action
-            android:id="@+id/action_nav_menu_to_nav_home"
-            app:destination="@id/nav_home" />
+            android:id="@+id/action_nav_menu_to_detailRest"
+            app:destination="@id/detailRest" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_cafe"
         android:name="com.lec.android.wswe.ui.cafe.CafeFragment"
         android:label="@string/menu_cafe"
-        tools:layout="@layout/fragment_cafe" >
-        <action
-            android:id="@+id/action_nav_cafe_to_nav_home"
-            app:destination="@id/nav_home" />
-    </fragment>
+        tools:layout="@layout/fragment_cafe" />
+    <activity
+        android:id="@+id/detailRest"
+        android:name="com.lec.android.wswe.ui.menu.DetailRest"
+        android:label="detail_rest"
+        tools:layout="@layout/detail_rest" />
 </navigation>

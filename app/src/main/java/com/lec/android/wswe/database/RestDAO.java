@@ -11,7 +11,7 @@ import java.util.List;
 
 @Dao
 public interface RestDAO {
-    @Query("SELECT * FROM RESTAURANT")
+    @Query("SELECT * FROM RESTAURANT ORDER BY rest_id DESC")
     LiveData<List<Restaurant>> getAll();
 
     @Insert

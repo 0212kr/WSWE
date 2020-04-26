@@ -62,7 +62,7 @@ public class Restaurant {
         return star;
     }
 
-    public void setStar(int star) {
+    public void setStar(float star) {
         this.star = star;
     }
 
@@ -96,5 +96,13 @@ public class Restaurant {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getRandomNum() {
+        return randomNum;
+    }
+
+    public void setRandomNum(int randomNum) {
+        this.randomNum = randomNum;
     }
 }

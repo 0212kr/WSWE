@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
+        <activity android:name=".ui.menu.DetailRest" />
         <activity android:name=".ui.menu.AddRestaurant"></activity>
         <activity
             android:name=".Loding"
