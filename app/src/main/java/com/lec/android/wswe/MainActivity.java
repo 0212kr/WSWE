@@ -8,7 +8,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.lec.android.wswe.database.RestDatabase;
+import com.lec.android.wswe.ui.menu.MenuViewModel;
 
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,18 +19,23 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.room.Room;
 
 public class MainActivity extends AppCompatActivity {
 
 //    static int menu = 0;    // ==추==가==
     private AppBarConfiguration mAppBarConfiguration;
+    private RestDatabase db;
+    private MenuViewModel menuViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // Floating Action Button
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,13 +52,16 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_menu, R.id.nav_cafe)
                 .setDrawerLayout(drawer)
                 .build();
+        // Fragment 를 보여줄 Controller 작성
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        // 위에서 설정한 최상위 Fragment 가 아니라면 ActionBar 에 뒤로가기 버튼을 생성
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        // wsweDB 생성
+        db = RestDatabase.getInstance(this);
 
-        RestDatabase db = RestDatabase.getInstance(this);
-
+        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
     }
 
     @Override

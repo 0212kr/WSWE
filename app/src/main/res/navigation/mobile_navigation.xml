@@ -14,6 +14,12 @@
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
             app:destination="@id/nav_home_second" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_menu"
+            app:destination="@id/nav_menu" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_cafe"
+            app:destination="@id/nav_cafe" />
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
@@ -33,11 +39,19 @@
         android:id="@+id/nav_menu"
         android:name="com.lec.android.wswe.ui.menu.MenuFragment"
         android:label="@string/menu_menu"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_nav_menu_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_cafe"
         android:name="com.lec.android.wswe.ui.cafe.CafeFragment"
         android:label="@string/menu_cafe"
-        tools:layout="@layout/fragment_cafe" />
+        tools:layout="@layout/fragment_cafe" >
+        <action
+            android:id="@+id/action_nav_cafe_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 </navigation>

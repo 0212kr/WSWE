@@ -17,13 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
-    List<Restaurant> restaurantList = new ArrayList<>();
-
-    static MenuAdapter adapter;
-
-    public MenuAdapter() {
-        this.adapter = this;
-    }
+    private List<Restaurant> restaurantList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -37,13 +31,25 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Restaurant restaurant = restaurantList.get(position);
-        holder.setItem(restaurant);
+
+        holder.tvName.setText(restaurant.getRest_name());
+//            if (restaurant.getTelephone() != null) {
+//                holder.tvPhone.setText(restaurant.getTelephone());
+//            } else {
+//                holder.tvPhone.setText("없음");
+//            }
+        holder.stars.setRating(restaurant.getStar());
     } // end onBindViewHolder
 
     @Override
     public int getItemCount() {
         return restaurantList.size();
     } // end getItemCount
+
+    public void setRestaurantList(List<Restaurant> restaurants){
+        this.restaurantList = restaurants;
+        notifyDataSetChanged();
+    } // end setRestaurantList()
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -60,40 +66,5 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             btnDelItem = itemView.findViewById(R.id.btnDelItem);
 
         } // end ViewHolder()
-
-        public void setItem(Restaurant restaurant) {
-            tvName.setText(restaurant.getRest_name());
-//            if (restaurant.getTelephone() != null) {
-//                tvPhone.setText(restaurant.getTelephone());
-//            } else {
-//                tvPhone.setText("없음");
-//            }
-            stars.setRating(restaurant.getStar());
-        }
     } // end ViewHolder
-
-    public void addRest(Restaurant restaurant) {
-        restaurantList.add(restaurant);
-    }
-
-    public void addItem(int position, Restaurant restaurant) {
-        restaurantList.add(position, restaurant);
-    }
-
-    public void setItems(ArrayList<Restaurant> restaurants) {
-        this.restaurantList = restaurants;
-    }
-
-    public Restaurant getItem(int position) {
-        return restaurantList.get(position);
-    }
-
-    public void setItem(int position, Restaurant restaurant) {
-        restaurantList.set(position, restaurant);
-    }
-
-    public void removeItem(int position) {
-        restaurantList.remove(position);
-    }
-
 } // end MenuAdapter
