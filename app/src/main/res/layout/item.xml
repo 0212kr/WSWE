@@ -12,6 +12,7 @@
        cardUseCompatPadding : CardView 내용에 따라 그림자 보여줄지 결정. API21 이상에서도 호환되게 padding 사용
     -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/item_cardView"
         android:layout_width="match_parent"
         android:layout_height="183dp"
         app:cardBackgroundColor="#FFFFFFFF"

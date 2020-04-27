@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.lec.android.wswe.R;
 import com.lec.android.wswe.database.Restaurant;
@@ -45,6 +46,32 @@ public class RandomFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         randomAdapter = new RandomAdapter();
         recyclerView.setAdapter(randomAdapter);
+
+        mViewModel.getAllRest().observe(getViewLifecycleOwner(), new Observer<List<Restaurant>>() {
+            @Override
+            public void onChanged(List<Restaurant> restaurants) {
+                randomAdapter.setRandomList(restaurants);
+            }
+        });
+
+        final Button randomStart = root.findViewById(R.id.randStart);
+        final Button randomStop = root.findViewById(R.id.randStop);
+        randomStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                randomAdapter.randomStart();
+                randomStart.setVisibility(View.INVISIBLE);
+                randomStop.setVisibility(View.VISIBLE);
+            }
+        });
+        randomStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                randomAdapter.randomStop();
+                randomStart.setVisibility(View.VISIBLE);
+                randomStop.setVisibility(View.INVISIBLE);
+            }
+        });
 
         return root;
     }

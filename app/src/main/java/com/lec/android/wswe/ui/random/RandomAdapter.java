@@ -1,16 +1,20 @@
 package com.lec.android.wswe.ui.random;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,16 +30,23 @@ import static java.util.Collections.sort;
 public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder> {
     private List<Restaurant> list = new ArrayList<>();
     private List<Restaurant> sub_list = new ArrayList<>();
+    private int counter;
+    private Context context;
+    private ViewHolder holder;
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false));
+        context = parent.getContext();
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item, parent, false));
     } // end onCreateViewHolder()
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Restaurant restaurant = list.get(position);
+        this.holder = holder;
+
+        holder.cardView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation_ing));
 
         holder.tvName.setText(restaurant.getRest_name());
         if (!restaurant.getTelephone().trim().isEmpty() && restaurant.getTelephone() != null) {
@@ -84,30 +95,50 @@ public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder
 
         list.addAll(sub_list);
         Log.d("myLog", "---------init Success------");
-
-        for (int i = 1; i < 100; i++) {
-            Restaurant temp = list.get(0);
-            list.remove(0);
-            list.add(temp);
-            notifyDataSetChanged();
-            try {
-                Log.d("myLog", "setRandomList: " + i);
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
     } // end setRestaurantList()
+
+    public void randomStart(){
+        final Handler handler = new Handler();
+        Thread randomThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (counter < 100) {
+                            counter++;
+                            Restaurant temp = list.get(0);
+                            list.remove(0);
+                            list.add(temp);
+                            notifyDataSetChanged();
+                            Log.d("myLog", "setRandomList: " + counter);
+                            handler.postDelayed(this, 200);
+                        } else {
+                            holder.cardView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+                            counter = 0;
+                        }
+                    }
+                }, 200);
+            }
+        });
+        randomThread.setDaemon(true);
+        randomThread.start();
+    } // end randomStart()
+
+    public void randomStop() {
+        counter = 100;
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPhone;
         RatingBar stars;
         ImageButton btnDelItem, ivPhoto;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            cardView = itemView.findViewById(R.id.item_cardView);
             tvName = itemView.findViewById(R.id.tvName);
             tvPhone = itemView.findViewById(R.id.tvPhone);
             stars = itemView.findViewById(R.id.ratingBar);
