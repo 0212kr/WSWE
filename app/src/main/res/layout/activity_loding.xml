@@ -8,20 +8,20 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#000000">
 
+
+        <ImageView
+            android:id="@+id/lodingView"
+            android:layout_width="417dp"
+            android:layout_height="730dp"
+            android:layout_gravity="center"
+            android:background="@drawable/background997"></ImageView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/lodingView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/background998"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"></ImageView>
 
             <ImageView
                 android:id="@+id/logingWswe"
@@ -31,8 +31,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.45"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/lodingView"
-                app:layout_constraintVertical_bias="0.120000005"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.41000003"
                 app:srcCompat="@raw/wswe4" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
