@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_menu, R.id.nav_cafe)
+                R.id.nav_home, R.id.nav_menu, R.id.nav_cafe, R.id.random)
                 .setDrawerLayout(drawer)
                 .build();
         // Fragment 를 보여줄 Controller 작성
@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         // wsweDB 생성
-        db = RestDatabase.getInstance(this);
-
-        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
+//        db = RestDatabase.getInstance(this);
+//
+//        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
     }
 
     @Override
