@@ -14,6 +14,18 @@
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
             app:destination="@id/nav_home_second" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_menu"
+            app:destination="@id/nav_menu" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_cafe"
+            app:destination="@id/nav_cafe" />
+        <action
+            android:id="@+id/action_nav_home_to_randomFragment"
+            app:destination="@id/random" />
+        <action
+            android:id="@+id/action_nav_home_to_random"
+            app:destination="@id/random" />
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
@@ -33,11 +45,26 @@
         android:id="@+id/nav_menu"
         android:name="com.lec.android.wswe.ui.menu.MenuFragment"
         android:label="@string/menu_menu"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_nav_menu_to_detailRest"
+            app:destination="@id/detailRest" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/random"
+        android:name="com.lec.android.wswe.ui.random.RandomFragment"
+        android:label="random_fragment"
+        tools:layout="@layout/random_fragment" />
 
     <fragment
         android:id="@+id/nav_cafe"
         android:name="com.lec.android.wswe.ui.cafe.CafeFragment"
         android:label="@string/menu_cafe"
         tools:layout="@layout/fragment_cafe" />
+    <activity
+        android:id="@+id/detailRest"
+        android:name="com.lec.android.wswe.ui.menu.DetailRest"
+        android:label="detail_rest"
+        tools:layout="@layout/detail_rest" />
 </navigation>

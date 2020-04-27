@@ -1,5 +1,6 @@
 package com.lec.android.wswe.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -10,8 +11,8 @@ import java.util.List;
 
 @Dao
 public interface RestDAO {
-    @Query("SELECT * FROM RESTAURANT")
-    List<Restaurant> getAll();
+    @Query("SELECT * FROM RESTAURANT ORDER BY rest_id DESC")
+    LiveData<List<Restaurant>> getAll();
 
     @Insert
     void insert(Restaurant restaurant);
@@ -21,4 +22,7 @@ public interface RestDAO {
 
     @Delete
     void delete(Restaurant restaurant);
+
+    @Query("DELETE FROM RESTAURANT")
+    void deleteAll();
 }

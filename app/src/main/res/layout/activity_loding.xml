@@ -6,13 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".Loding">
 
-    <ImageView
-        android:id="@+id/logindView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/back"
-    >
+        android:background="#000000">
 
-    </ImageView>
+
+        <ImageView
+            android:id="@+id/lodingView"
+            android:layout_width="417dp"
+            android:layout_height="730dp"
+            android:layout_gravity="center"
+            android:background="@drawable/background997"></ImageView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/logingWswe"
+                android:layout_width="550dp"
+                android:layout_height="530dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.45"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.41000003"
+                app:srcCompat="@raw/wswe4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

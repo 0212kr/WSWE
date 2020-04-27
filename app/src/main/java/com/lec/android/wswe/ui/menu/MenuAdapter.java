@@ -1,11 +1,13 @@
 package com.lec.android.wswe.ui.menu;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,13 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
-    List<Restaurant> restaurantList = new ArrayList<>();
-
-    static MenuAdapter adapter;
-
-    public MenuAdapter() {
-        this.adapter = this;
-    }
+    private List<Restaurant> restaurantList = new ArrayList<>();
+    private OnClickDeleteListener deleteListener;
+    private OnItemClickListener itemClickListener;
 
     @NonNull
     @Override
@@ -35,9 +33,17 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     } // end onCreateViewHolder
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Restaurant restaurant = restaurantList.get(position);
-        holder.setItem(restaurant);
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        final Restaurant restaurant = restaurantList.get(position);
+
+        holder.tvName.setText(restaurant.getRest_name());
+        if (!restaurant.getTelephone().trim().isEmpty() && restaurant.getTelephone() != null) {
+            holder.tvPhone.setText(restaurant.getTelephone());
+        } else {
+            holder.tvPhone.setText("없음");
+        }
+        holder.stars.setRating(restaurant.getStar());
+
     } // end onBindViewHolder
 
     @Override
@@ -45,7 +51,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         return restaurantList.size();
     } // end getItemCount
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public void setRestaurantList(List<Restaurant> restaurants) {
+        this.restaurantList = restaurants;
+        notifyDataSetChanged();
+    } // end setRestaurantList()
+
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvName, tvPhone;
         RatingBar stars;
@@ -55,45 +66,46 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tvName);
-            tvPhone = itemView.findViewById(R.id.etPhone);
+            tvPhone = itemView.findViewById(R.id.tvPhone);
             stars = itemView.findViewById(R.id.ratingBar);
             btnDelItem = itemView.findViewById(R.id.btnDelItem);
 
-        } // end ViewHolder()
+            btnDelItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (deleteListener != null && position != RecyclerView.NO_POSITION) {
+                        deleteListener.onClickDelete(restaurantList.get(position));
+                    }
+                }
+            }); // end btnDelItem.setOnClickListener()
 
-        public void setItem(Restaurant restaurant) {
-            tvName.setText(restaurant.getRest_name());
-//            if (restaurant.getTelephone() != null) {
-//                tvPhone.setText(restaurant.getTelephone());
-//            } else {
-//                tvPhone.setText("없음");
-//            }
-            stars.setRating(restaurant.getStar());
-        }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                        Log.d("myLog", "setOnClickListener : " + position);
+                    if (itemClickListener != null && position != RecyclerView.NO_POSITION) {
+                        itemClickListener.onItemClick(restaurantList.get(position));
+                    }
+                }
+            }); // end itemView.setOnClickListener()
+        } // end ViewHolder()
     } // end ViewHolder
 
-    public void addRest(Restaurant restaurant) {
-        restaurantList.add(restaurant);
-    }
+    public interface OnClickDeleteListener {
+        void onClickDelete(Restaurant restaurant);
+    } // end onClickDelete()
 
-    public void addItem(int position, Restaurant restaurant) {
-        restaurantList.add(position, restaurant);
-    }
+    public void setOnClickDeleteListener(OnClickDeleteListener listener) {
+        this.deleteListener = listener;
+    } // end setOnClickDeleteListener()
 
-    public void setItems(ArrayList<Restaurant> restaurants) {
-        this.restaurantList = restaurants;
-    }
+    public interface OnItemClickListener {
+        void onItemClick(Restaurant restaurant);
+    } // end OnItemClickListener()
 
-    public Restaurant getItem(int position) {
-        return restaurantList.get(position);
-    }
-
-    public void setItem(int position, Restaurant restaurant) {
-        restaurantList.set(position, restaurant);
-    }
-
-    public void removeItem(int position) {
-        restaurantList.remove(position);
-    }
-
+    public void setItemClickListener(OnItemClickListener listener) {
+        this.itemClickListener = listener;
+    } // end setOnItemClickListener()
 } // end MenuAdapter

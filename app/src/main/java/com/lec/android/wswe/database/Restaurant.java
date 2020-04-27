@@ -2,7 +2,11 @@ package com.lec.android.wswe.database;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.Date;
+
 
 @Entity(tableName = "RESTAURANT")
 public class Restaurant {
@@ -13,6 +17,11 @@ public class Restaurant {
     private String telephone;
     private float star;
     private int visited;
+    private Date recentDate;
+    private double latitude;
+    private double longitude;
+    @Ignore
+    private int randomNum;
 
     public Restaurant(@NonNull String rest_name, String telephone, float star) {
         this.rest_name = rest_name;
@@ -53,7 +62,7 @@ public class Restaurant {
         return star;
     }
 
-    public void setStar(int star) {
+    public void setStar(float star) {
         this.star = star;
     }
 
@@ -63,5 +72,37 @@ public class Restaurant {
 
     public void setVisited(int visited) {
         this.visited = visited;
+    }
+
+    public Date getRecentDate() {
+        return recentDate;
+    }
+
+    public void setRecentDate(Date recentDate) {
+        this.recentDate = recentDate;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getRandomNum() {
+        return randomNum;
+    }
+
+    public void setRandomNum(int randomNum) {
+        this.randomNum = randomNum;
     }
 }

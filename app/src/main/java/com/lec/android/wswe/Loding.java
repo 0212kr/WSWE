@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.lec.android.wswe.ui.home.HomeFragment;
 
 public class Loding extends AppCompatActivity {
 
@@ -23,7 +22,7 @@ public class Loding extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_loding);
 
-        ImageView load = (ImageView)findViewById(R.id.logindView);
+        ImageView load = (ImageView)findViewById(R.id.logingWswe);
         Glide.with(this).load(R.raw.wswe4).into(load);
 
         Handler mhandler = new Handler(){
@@ -37,6 +36,8 @@ public class Loding extends AppCompatActivity {
 
             }
         } ;
+
+
 
 
 
