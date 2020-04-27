@@ -20,6 +20,12 @@
         <action
             android:id="@+id/action_nav_home_to_nav_cafe"
             app:destination="@id/nav_cafe" />
+        <action
+            android:id="@+id/action_nav_home_to_randomFragment"
+            app:destination="@id/random" />
+        <action
+            android:id="@+id/action_nav_home_to_random"
+            app:destination="@id/random" />
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
@@ -44,6 +50,12 @@
             android:id="@+id/action_nav_menu_to_detailRest"
             app:destination="@id/detailRest" />
     </fragment>
+
+    <fragment
+        android:id="@+id/random"
+        android:name="com.lec.android.wswe.ui.random.RandomFragment"
+        android:label="random_fragment"
+        tools:layout="@layout/random_fragment" />
 
     <fragment
         android:id="@+id/nav_cafe"
