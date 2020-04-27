@@ -16,7 +16,6 @@
             android:layout_height="180dp"
             android:layout_marginTop="50dp"
             tools:listitem="@layout/item"
-            android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

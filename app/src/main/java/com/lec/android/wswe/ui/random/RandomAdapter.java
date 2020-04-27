@@ -102,7 +102,7 @@ public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder
         Thread randomThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                handler.postDelayed(new Runnable() {
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (counter < 100) {
@@ -118,7 +118,7 @@ public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder
                             counter = 0;
                         }
                     }
-                }, 200);
+                });
             }
         });
         randomThread.setDaemon(true);

@@ -42,7 +42,12 @@ public class RandomFragment extends Fragment {
         setHasOptionsMenu(true);
 
         recyclerView = root.findViewById(R.id.randomList);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         recyclerView.setLayoutManager(manager);
         randomAdapter = new RandomAdapter();
         recyclerView.setAdapter(randomAdapter);
