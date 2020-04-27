@@ -46,14 +46,6 @@ public class RandomFragment extends Fragment {
         randomAdapter = new RandomAdapter();
         recyclerView.setAdapter(randomAdapter);
 
-        mViewModel.getAllRest().observe(getViewLifecycleOwner(), new Observer<List<Restaurant>>() {
-            @Override
-            public void onChanged(List<Restaurant> restaurants) {
-                Log.d("myLog", "isId : " + restaurants.get(0).getRest_id());
-                randomAdapter.setRandomList(restaurants);
-            }
-        });
-
         return root;
     }
 

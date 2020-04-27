@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lec.android.wswe.R;
@@ -24,6 +25,7 @@ import static java.util.Collections.sort;
 
 public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder> {
     private List<Restaurant> list = new ArrayList<>();
+    private List<Restaurant> sub_list = new ArrayList<>();
 
     @NonNull
     @Override
@@ -58,6 +60,7 @@ public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder
             Log.d("myLog", r.getRest_id() + " : " + r.getRandomNum());
         }
 
+        Log.d("myLog", "---------random Success------");
         sort(list, new Comparator<Restaurant>() {
             @Override
             public int compare(Restaurant o1, Restaurant o2) {
@@ -71,7 +74,30 @@ public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder
             Log.d("myLog", r.getRest_id() + " : " + r.getRandomNum());
         }
 
-        notifyDataSetChanged();
+        Log.d("myLog", "---------sort Success------");
+        if (list.size() > 6) {
+            for (int i = 0; i < 5; i++) {
+                sub_list.add(i, list.get(i));
+            }
+            list.removeAll(list);
+        }
+
+        list.addAll(sub_list);
+        Log.d("myLog", "---------init Success------");
+
+        for (int i = 1; i < 100; i++) {
+            Restaurant temp = list.get(0);
+            list.remove(0);
+            list.add(temp);
+            notifyDataSetChanged();
+            try {
+                Log.d("myLog", "setRandomList: " + i);
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     } // end setRestaurantList()
 
     class ViewHolder extends RecyclerView.ViewHolder {
