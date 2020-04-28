@@ -1,14 +1,15 @@
 package com.lec.android.wswe.ui.menu;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,17 +17,21 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -148,17 +153,53 @@ public class MenuFragment extends Fragment {
             @Override
             public void onItemClick(Restaurant restaurant) {
                 Log.d("myLog", "setItemClickListener : " + restaurant.getRest_id());
-                Intent intent = new Intent(getActivity(), DetailRest.class);
-                intent.putExtra(DetailRest.EXTRA_ID, restaurant.getRest_id());
-                intent.putExtra(DetailRest.EXTRA_NAME, restaurant.getRest_name());
-                intent.putExtra(DetailRest.EXTRA_PHONE, restaurant.getTelephone());
-                intent.putExtra(DetailRest.EXTRA_STARS, restaurant.getStar());
-                intent.putExtra(DetailRest.EXTRA_VISITED, restaurant.getVisited());
-                intent.putExtra(DetailRest.EXTRA_RECENTDATE, restaurant.getRecentDate());
-                intent.putExtra(DetailRest.EXTRA_LATITUDE, restaurant.getLatitude());
-                intent.putExtra(DetailRest.EXTRA_LONGITUDE, restaurant.getLongitude());
-                intent.putExtra(DetailRest.EXTRA_RANDOMNUM, restaurant.getRandomNum());
-                startActivityForResult(intent, EDIT_REST_REQUEST);
+                TextView tvId, tvName, tvPhone, tvVisited, tvRecentdate, tvLatitude, tvLongitude, tvRandomnum;
+                RatingBar showStar;
+                ImageView imageView;
+                ActionBar actionBar;
+                String restName;
+//                Intent intent = new Intent(getActivity(), DetailRest.class);
+//                intent.putExtra(DetailRest.EXTRA_ID, restaurant.getRest_id());
+//                intent.putExtra(DetailRest.EXTRA_NAME, restaurant.getRest_name());
+//                intent.putExtra(DetailRest.EXTRA_PHONE, restaurant.getTelephone());
+//                intent.putExtra(DetailRest.EXTRA_STARS, restaurant.getStar());
+//                intent.putExtra(DetailRest.EXTRA_VISITED, restaurant.getVisited());
+//                intent.putExtra(DetailRest.EXTRA_RECENTDATE, restaurant.getRecentDate());
+//                intent.putExtra(DetailRest.EXTRA_LATITUDE, restaurant.getLatitude());
+//                intent.putExtra(DetailRest.EXTRA_LONGITUDE, restaurant.getLongitude());
+//                intent.putExtra(DetailRest.EXTRA_RANDOMNUM, restaurant.getRandomNum());
+//                startActivityForResult(intent, EDIT_REST_REQUEST);
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.detail_rest);
+                dialog.setOwnerActivity(getActivity());
+                dialog.setCanceledOnTouchOutside(false);
+                Display display = getActivity().getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                Window window = dialog.getWindow();
+                int x = (int) (size.x * 0.9f);
+                int y = (int) (size.y * 0.9f);
+                window.setLayout(x, y);
+                tvId = dialog.findViewById(R.id.tvDetailId);
+                tvName = dialog.findViewById(R.id.tvDetailName);
+                tvPhone = dialog.findViewById(R.id.tvDetailPhone);
+                tvVisited = dialog.findViewById(R.id.detailVisited);
+                tvRecentdate = dialog.findViewById(R.id.detailRecentDate);
+                tvLatitude = dialog.findViewById(R.id.detailLatitude);
+                tvLongitude = dialog.findViewById(R.id.detailLongitude);
+                tvRandomnum = dialog.findViewById(R.id.detailRandomNum);
+                showStar = dialog.findViewById(R.id.detailStar);
+                tvId.setText("" + restaurant.getRest_id());
+                tvName.setText(restaurant.getRest_name());
+                tvPhone.setText(restaurant.getTelephone());
+                tvVisited.setText("" + restaurant.getVisited());
+                tvRecentdate.setText("" + restaurant.getRecentDate());
+                tvLatitude.setText("" + restaurant.getLatitude());
+                tvLongitude.setText("" + restaurant.getLongitude());
+                tvRandomnum.setText("" + restaurant.getRandomNum());
+                showStar.setRating(restaurant.getStar());
+                dialog.show();
+
             }
         }); // end menuAdapter.setItemClickListener()
 
