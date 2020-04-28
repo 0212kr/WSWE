@@ -112,7 +112,7 @@ public class RandomAdapter extends RecyclerView.Adapter<RandomAdapter.ViewHolder
                             list.add(temp);
                             notifyDataSetChanged();
                             Log.d("myLog", "setRandomList: " + counter);
-                            handler.postDelayed(this, 200);
+                            handler.postDelayed(this, 300);
                         } else {
                             holder.cardView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
                             counter = 0;
