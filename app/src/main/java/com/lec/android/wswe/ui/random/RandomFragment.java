@@ -3,6 +3,7 @@ package com.lec.android.wswe.ui.random;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,6 @@ import com.lec.android.wswe.R;
 import com.lec.android.wswe.database.Restaurant;
 import com.lec.android.wswe.ui.menu.MenuViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RandomFragment extends Fragment {
@@ -42,39 +41,66 @@ public class RandomFragment extends Fragment {
         setHasOptionsMenu(true);
 
         recyclerView = root.findViewById(R.id.randomList);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false){
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         };
         recyclerView.setLayoutManager(manager);
-        randomAdapter = new RandomAdapter();
-        recyclerView.setAdapter(randomAdapter);
-
+        recyclerView.setHasFixedSize(true);
+        randomAdapter = new RandomAdapter(this.getContext(), root);
         mViewModel.getAllRest().observe(getViewLifecycleOwner(), new Observer<List<Restaurant>>() {
             @Override
             public void onChanged(List<Restaurant> restaurants) {
                 randomAdapter.setRandomList(restaurants);
             }
         });
+        recyclerView.setAdapter(randomAdapter);
 
         final Button randomStart = root.findViewById(R.id.randStart);
         final Button randomStop = root.findViewById(R.id.randStop);
         randomStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                randomAdapter.randomStart();
-                randomStart.setVisibility(View.INVISIBLE);
-                randomStop.setVisibility(View.VISIBLE);
+                if (randomAdapter.randomStart()) {
+                    randomStart.setVisibility(View.INVISIBLE);
+                    randomStop.setVisibility(View.VISIBLE);
+                    randomStop.setClickable(false);
+                    new AsyncTask<Void, Integer, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            for (int i = 3; i > 0; i--) {
+                                publishProgress(i);
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void onProgressUpdate(Integer... values) {
+                            super.onProgressUpdate(values);
+                            randomStop.setText("" + values[0]);
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            randomStop.setText("멈추기");
+                            randomStop.setClickable(true);
+                        }
+                    }.execute();
+                }
             }
         });
         randomStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 randomAdapter.randomStop();
-                randomStart.setVisibility(View.VISIBLE);
-                randomStop.setVisibility(View.INVISIBLE);
             }
         });
 

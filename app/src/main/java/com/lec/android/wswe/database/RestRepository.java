@@ -7,8 +7,6 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import kotlinx.coroutines.CompletableDeferred;
-
 public class RestRepository {
     private RestDAO restDAO;
     private LiveData<List<Restaurant>> allRest;

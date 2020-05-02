@@ -2,11 +2,8 @@ package com.lec.android.wswe.ui.menu;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -14,23 +11,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -39,14 +30,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lec.android.wswe.R;
-import com.lec.android.wswe.database.RestDAO;
-import com.lec.android.wswe.database.RestDatabase;
 import com.lec.android.wswe.database.Restaurant;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
 
 public class MenuFragment extends Fragment {
 
