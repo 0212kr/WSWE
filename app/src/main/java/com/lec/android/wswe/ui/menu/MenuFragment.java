@@ -1,11 +1,15 @@
 package com.lec.android.wswe.ui.menu;
 
+import android.accessibilityservice.AccessibilityService;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,7 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,11 +52,38 @@ public class MenuFragment extends Fragment {
     EditText etName, etPhone;
     RatingBar stars;
 
+    TextView tvId, tvName, tvPhone, tvVisited, tvRecentdate, tvLatitude, tvLongitude, tvRandomnum;
+    EditText etDetailName, etDetailPhone;
+    RatingBar showStar;
+    ImageView imageView, detailEdit;
+    Button btnConfirm, btnCancel;
+    ActionBar actionBar;
+    String restName;
+    Dialog dialog;
+    InputMethodManager manager;
+    boolean isKeyUp = false;
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         menuViewModel =
                 ViewModelProviders.of(getActivity()).get(MenuViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_menu, container, false);
+        final View root = inflater.inflate(R.layout.fragment_menu, container, false);
+        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int rootViewHeight = root.getRootView().getHeight();
+                int relativeHeight = root.getHeight();
+                int diff = rootViewHeight - relativeHeight;
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, metrics);
+                if (diff > dp) {
+                    isKeyUp = true;
+                } else {
+                    isKeyUp = false;
+                }
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -69,6 +103,7 @@ public class MenuFragment extends Fragment {
         });
 
         // activity_add_restaurant Dialog...
+        manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         addMenuDialog = new Dialog(getActivity());
         addMenuDialog.setContentView(R.layout.activity_add_restaurant);
         addMenuDialog.setOwnerActivity(getActivity());
@@ -107,11 +142,14 @@ public class MenuFragment extends Fragment {
                 String phone = etPhone.getText().toString();
                 float starNum = stars.getRating();
 
-                if (name.trim().isEmpty()) {
+                if (checkValue(name)) {
                     Toast.makeText(getContext(), "식당 이름은 필수항목 입니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     Restaurant restaurant = new Restaurant(name, phone, starNum);
                     menuViewModel.insert(restaurant);
+                    if (isKeyUp) {
+                        manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    }
                     dialogCleaner();
                     addMenuDialog.dismiss();
                 }// end if
@@ -135,15 +173,25 @@ public class MenuFragment extends Fragment {
             }
         }); // end menuAdapter.setOnClickDeleteListener
 
+        dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.detail_rest);
+        dialog.setOwnerActivity(getActivity());
+        dialog.setCanceledOnTouchOutside(false);
+        Point size = new Point();
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+        Window window = dialog.getWindow();
+        int x = (int) (size.x * 1f);
+        int y = (int) (size.y * 1f);
+        window.setLayout(x, y);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.view222);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         menuAdapter.setItemClickListener(new MenuAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Restaurant restaurant) {
                 Log.d("myLog", "setItemClickListener : " + restaurant.getRest_id());
-                TextView tvId, tvName, tvPhone, tvVisited, tvRecentdate, tvLatitude, tvLongitude, tvRandomnum;
-                RatingBar showStar;
-                ImageView imageView;
-                ActionBar actionBar;
-                String restName;
+
 //                Intent intent = new Intent(getActivity(), DetailRest.class);
 //                intent.putExtra(DetailRest.EXTRA_ID, restaurant.getRest_id());
 //                intent.putExtra(DetailRest.EXTRA_NAME, restaurant.getRest_name());
@@ -155,37 +203,9 @@ public class MenuFragment extends Fragment {
 //                intent.putExtra(DetailRest.EXTRA_LONGITUDE, restaurant.getLongitude());
 //                intent.putExtra(DetailRest.EXTRA_RANDOMNUM, restaurant.getRandomNum());
 //                startActivityForResult(intent, EDIT_REST_REQUEST);
-                Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.detail_rest);
-                dialog.setOwnerActivity(getActivity());
-                dialog.setCanceledOnTouchOutside(false);
-                Display display = getActivity().getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                Window window = dialog.getWindow();
-                int x = (int) (size.x * 0.9f);
-                int y = (int) (size.y * 0.9f);
-                window.setLayout(x, y);
-                tvId = dialog.findViewById(R.id.tvDetailId);
-                tvName = dialog.findViewById(R.id.tvDetailName);
-                tvPhone = dialog.findViewById(R.id.tvDetailPhone);
-                tvVisited = dialog.findViewById(R.id.detailVisited);
-                tvRecentdate = dialog.findViewById(R.id.detailRecentDate);
-                tvLatitude = dialog.findViewById(R.id.detailLatitude);
-                tvLongitude = dialog.findViewById(R.id.detailLongitude);
-                tvRandomnum = dialog.findViewById(R.id.detailRandomNum);
-                showStar = dialog.findViewById(R.id.detailStar);
-                tvId.setText("" + restaurant.getRest_id());
-                tvName.setText(restaurant.getRest_name());
-                tvPhone.setText(restaurant.getTelephone());
-                tvVisited.setText("" + restaurant.getVisited());
-                tvRecentdate.setText("" + restaurant.getRecentDate());
-                tvLatitude.setText("" + restaurant.getLatitude());
-                tvLongitude.setText("" + restaurant.getLongitude());
-                tvRandomnum.setText("" + restaurant.getRandomNum());
-                showStar.setRating(restaurant.getStar());
+                setDetailTextView(restaurant);
+                stateViewMode(restaurant);
                 dialog.show();
-
             }
         }); // end menuAdapter.setItemClickListener()
 
@@ -206,6 +226,10 @@ public class MenuFragment extends Fragment {
 //                Intent intent = new Intent(getContext(), AddRestaurant.class);
 //                startActivityForResult(intent, ADD_REST_REQUEST);
                 addMenuDialog.show();
+                etName.requestFocus();
+                if (etName.isFocused()) {
+                    manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -234,4 +258,116 @@ public class MenuFragment extends Fragment {
 //            Toast.makeText(getContext(), "식당 추가가 실패했습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
 //        } // end if-else
 //    } // end onActivityResult()
+
+
+    public void setDetailTextView(final Restaurant restaurant) {
+        tvId = dialog.findViewById(R.id.tvDetailId);
+        tvName = dialog.findViewById(R.id.tvDetailName);
+        tvPhone = dialog.findViewById(R.id.tvDetailPhone);
+        tvVisited = dialog.findViewById(R.id.detailVisited);
+        tvRecentdate = dialog.findViewById(R.id.detailRecentDate);
+        tvLatitude = dialog.findViewById(R.id.detailLatitude);
+        tvLongitude = dialog.findViewById(R.id.detailLongitude);
+        tvRandomnum = dialog.findViewById(R.id.detailRandomNum);
+        showStar = dialog.findViewById(R.id.detailStar);
+        detailEdit = dialog.findViewById(R.id.detail_edit);
+        etDetailName = dialog.findViewById(R.id.etDetailName);
+        etDetailPhone = dialog.findViewById(R.id.etDetailPhone);
+        btnConfirm = dialog.findViewById(R.id.btnConfirm);
+        btnCancel = dialog.findViewById(R.id.btnCancel);
+        tvId.setText("" + restaurant.getRest_id());
+        tvVisited.setText("" + restaurant.getVisited());
+        tvRecentdate.setText("" + restaurant.getRecentDate());
+        tvLatitude.setText("" + restaurant.getLatitude());
+        tvLongitude.setText("" + restaurant.getLongitude());
+        tvRandomnum.setText("" + restaurant.getRandomNum());
+
+        detailEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stateEditMode();
+            }
+        }); // end detailEdit
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String rest_name = etDetailName.getText().toString().trim();
+                if (checkValue(rest_name)) {
+                    Toast.makeText(getContext(), "식당 이름은 필수항목 입니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    restaurant.setRest_name(etDetailName.getText().toString().trim());
+                    restaurant.setTelephone(etDetailPhone.getText().toString().trim());
+                    restaurant.setStar(showStar.getRating());
+                    menuViewModel.update(restaurant);
+                    Toast.makeText(getContext(), "성공적으로 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                    stateViewMode(restaurant);
+                }
+            }
+        }); // end btnConfirm
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("정말로 취소하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                stateViewMode(restaurant);
+                            }
+                        })
+                        .setNegativeButton("아니오", null);
+                builder.show();
+            }
+        });
+    } // end setDetailTextView()
+
+    public void stateViewMode(Restaurant restaurant) {
+        tvName.setText(restaurant.getRest_name());
+        tvPhone.setText(restaurant.getTelephone());
+        showStar.setRating(restaurant.getStar());
+        etDetailName.setVisibility(View.INVISIBLE);
+        tvName.setVisibility(View.VISIBLE);
+        etDetailPhone.setVisibility(View.INVISIBLE);
+        tvPhone.setVisibility(View.VISIBLE);
+        detailEdit.setVisibility(View.VISIBLE);
+        btnConfirm.setVisibility(View.INVISIBLE);
+        btnCancel.setVisibility(View.INVISIBLE);
+        showStar.setIsIndicator(true);
+        if (isKeyUp) {
+            manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        }
+    } // end stateViewMode()
+
+    public void stateEditMode() {
+        etDetailName.setText(tvName.getText());
+        etDetailName.setVisibility(View.VISIBLE);
+        tvName.setVisibility(View.INVISIBLE);
+        etDetailPhone.setText(tvPhone.getText());
+        etDetailPhone.setVisibility(View.VISIBLE);
+        tvPhone.setVisibility(View.INVISIBLE);
+        detailEdit.setVisibility(View.INVISIBLE);
+        btnConfirm.setVisibility(View.VISIBLE);
+        btnCancel.setVisibility(View.VISIBLE);
+        showStar.setIsIndicator(false);
+        etDetailName.setSelection(etDetailName.length());
+    }
+
+    public boolean checkValue(String restName) {
+        restName = restName.trim();
+        if (restName.isEmpty() || restName.equals("") || restName == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (isKeyUp) {
+            manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        }
+    }
 } // end Fragment
