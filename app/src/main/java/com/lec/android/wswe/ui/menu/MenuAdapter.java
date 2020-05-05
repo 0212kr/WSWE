@@ -40,7 +40,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         if (!restaurant.getTelephone().trim().isEmpty() && restaurant.getTelephone() != null) {
             holder.tvPhone.setText(restaurant.getTelephone());
         } else {
-            holder.tvPhone.setText("없음");
+            holder.tvPhone.setText("번호가 없어요");
         }
         holder.stars.setRating(restaurant.getStar());
 

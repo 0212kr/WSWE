@@ -22,6 +22,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetailName" />
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="148dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/detail_edit" />
 
@@ -66,6 +68,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="20dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/detailStar" />
 
@@ -76,6 +79,7 @@
                 android:layout_marginStart="44dp"
                 android:layout_marginTop="20dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 app:layout_constraintStart_toEndOf="@+id/detailVisited"
                 app:layout_constraintTop_toBottomOf="@+id/detailStar" />
 
@@ -86,6 +90,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="32dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/detailVisited" />
 
@@ -96,6 +101,7 @@
                 android:layout_marginStart="44dp"
                 android:layout_marginTop="32dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 app:layout_constraintStart_toEndOf="@+id/detailLatitude"
                 app:layout_constraintTop_toBottomOf="@+id/detailVisited" />
 
@@ -106,6 +112,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="32dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/detailLatitude" />
 
@@ -122,7 +129,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13999999"
-                app:srcCompat="@drawable/ic_detail_edit" />
+                app:srcCompat="@drawable/edit" />
 
             <EditText
                 android:id="@+id/etDetailName"
@@ -132,6 +139,7 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -145,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -160,6 +169,7 @@
                 android:ems="10"
                 android:inputType="phone"
                 android:text="TextView"
+                android:textColor="#ffffff"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:visibility="invisible"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"

@@ -184,7 +184,7 @@ public class MenuFragment extends Fragment {
         int x = (int) (size.x * 1f);
         int y = (int) (size.y * 1f);
         window.setLayout(x, y);
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.view222);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.detailview);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         menuAdapter.setItemClickListener(new MenuAdapter.OnItemClickListener() {
