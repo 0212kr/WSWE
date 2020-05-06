@@ -61,7 +61,7 @@ public class MenuFragment extends Fragment {
     String restName;
     Dialog dialog;
     InputMethodManager manager;
-    boolean isKeyUp = false;
+//    boolean isKeyUp = false;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,21 +69,21 @@ public class MenuFragment extends Fragment {
         menuViewModel =
                 ViewModelProviders.of(getActivity()).get(MenuViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_menu, container, false);
-        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int rootViewHeight = root.getRootView().getHeight();
-                int relativeHeight = root.getHeight();
-                int diff = rootViewHeight - relativeHeight;
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, metrics);
-                if (diff > dp) {
-                    isKeyUp = true;
-                } else {
-                    isKeyUp = false;
-                }
-            }
-        });
+//        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                int rootViewHeight = root.getRootView().getHeight();
+//                int relativeHeight = root.getHeight();
+//                int diff = rootViewHeight - relativeHeight;
+//                DisplayMetrics metrics = getResources().getDisplayMetrics();
+//                float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, metrics);
+//                if (diff > dp) {
+//                    isKeyUp = true;
+//                } else {
+//                    isKeyUp = false;
+//                }
+//            }
+//        });
 
         setHasOptionsMenu(true);
 
@@ -147,9 +147,9 @@ public class MenuFragment extends Fragment {
                 } else {
                     Restaurant restaurant = new Restaurant(name, phone, starNum);
                     menuViewModel.insert(restaurant);
-                    if (isKeyUp) {
-                        manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                    }
+//                    if (isKeyUp) {
+//                        manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//                    }
                     dialogCleaner();
                     addMenuDialog.dismiss();
                 }// end if
@@ -226,10 +226,10 @@ public class MenuFragment extends Fragment {
 //                Intent intent = new Intent(getContext(), AddRestaurant.class);
 //                startActivityForResult(intent, ADD_REST_REQUEST);
                 addMenuDialog.show();
-                etName.requestFocus();
-                if (etName.isFocused()) {
-                    manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-                }
+//                etName.requestFocus();
+//                if (etName.isFocused()) {
+//                    manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -335,9 +335,9 @@ public class MenuFragment extends Fragment {
         btnConfirm.setVisibility(View.INVISIBLE);
         btnCancel.setVisibility(View.INVISIBLE);
         showStar.setIsIndicator(true);
-        if (isKeyUp) {
-            manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-        }
+//        if (isKeyUp) {
+//            manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//        }
     } // end stateViewMode()
 
     public void stateEditMode() {
@@ -366,8 +366,8 @@ public class MenuFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (isKeyUp) {
-            manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-        }
+//        if (isKeyUp) {
+//            manager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//        }
     }
 } // end Fragment
