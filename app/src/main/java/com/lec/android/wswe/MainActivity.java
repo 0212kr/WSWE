@@ -1,5 +1,6 @@
 package com.lec.android.wswe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.lec.android.wswe.database.RestDatabase;
+import com.lec.android.wswe.ui.home.HomeFragment;
 import com.lec.android.wswe.ui.menu.MenuViewModel;
 
 import androidx.fragment.app.Fragment;
@@ -35,12 +37,16 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private RestDatabase db;
     private MenuViewModel menuViewModel;
-
+    Intent intent;
+    TempData tempData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        intent = getIntent();
+        tempData = (TempData) intent.getSerializableExtra("tempData");
+
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 //        db = RestDatabase.getInstance(this);
 
 //        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
-
 
 
     }
