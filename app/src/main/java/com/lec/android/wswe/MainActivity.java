@@ -27,6 +27,7 @@ import androidx.room.Room;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private RestDatabase db;
     private MenuViewModel menuViewModel;
-    private TextView text_home;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,32 +69,14 @@ public class MainActivity extends AppCompatActivity {
 
         // wsweDB 생성
 //        db = RestDatabase.getInstance(this);
-//
+
 //        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
 
-//        text_home = (TextView) findViewById(R.id.text_home);
-//        text_home.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getWebsite();
-//            }
-//        });
+
+
     }
 
-//    private void getWebsite(){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                final StringBuilder builder = new StringBuilder();
-//
-//                try {
-//                    Document doc = Jsoup.connect("https://docs.google.com/document/d/1DRVTSLjwYd_Q1fv4rVpHi8J08EQbXLUAqG_kDsFqZew/edit?usp=sharing").get();
-//                    String title = doc.title();
-//                    Element links = doc.select("#kix-appview > div.kix-appview-editor-container > div > div:nth-child(1) > div.kix-zoomdocumentplugin-outer > div > div > div > div:nth-child(2) > div > div.kix-page-content-wrapper > div:nth-child(1) > div > div > div:nth-child(1) > div")
-//                }
-//            }
-//        })
-//    }
+
 //https://www.youtube.com/watch?v=BqMIcugsCFc
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
